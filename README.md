@@ -41,7 +41,10 @@ Ingesta de datos:
     Proceso Realizado: 
     1. Se crea una función que puede leer tanto en pandas como en pyspark, 
         Nota: para la ejecución con pyspark cambiar:
-            - "USE_SPARK=False2 por "USE_SPARK=True" en el archivo config.py. 
+            - "USE_SPARK=False" por "USE_SPARK=True" en el archivo config.py. 
+            
+            Tener en cuenta que pyspark puede que lea y procese mejor los archivos, sin embargo, para la escritura tardara más, por lo que recomiendo 
+            ejecutarlo en pandas
         
         La funcion de lectura se puede encontrar en el archivo data_io.py en la clase "extract_load", esta clase lee y guarda los dataframes en formato csv
         y tambien lee y guarda en base de datos. 
@@ -55,17 +58,26 @@ Ingesta de datos:
 
         - limpieza.py: 
             En este archivo se genera una clase llamada limpieza_df, en donde simplemente con especificar el dataframe y las columnas se realiza todo el proceso de limpieza. Dentro de esta clase, se crean funciones para eliminacion de datos null, dropeo de duplicados y cambio de tipo de columna a cada columna especificada. 
+
                 - eliminar_nulos: Funcion en donde se eliminan datos nulos del dataframe, puede ser pandas o pyspark
+                
                 - eliminar_duplicados: Funcion en donde se eliminan datos duplicados del dataframe, puede ser pandas o pyspark
+                
                 - convertir_tipos: Funcion en donde se intercambia el tipo de columna especificada por el tipo que dato que se especifique, puede ser pandas o pyspark.
+                
                 - resultado: es una funcion para el llamado final de todo el proceso propuesto en la clase.
+        
         - proceso.py: 
             Este archivo contiene toda el proceso que se realiza para el manejo con la API, este archivo es el que contiene todo el proceso ejecutado por main.py (archivo principal). dentro de este archivo se tiene las funciones de:
+
                 - toma_de_coordenadas_UK: Esta funcion filtra las latitudes entre 49.9 y 60.9 y las longitudes entre -8.6 y 1.8, debido a que estos son los valores aproximados de UK, esto hace que se filtre el dataframe un poco más y se eviten peticiones a la API con coordenadas que no se encontraran en la API. 
+
                 - dividir_dataframe: Esta funcion se realiza debido a que se tiene demasiados registros por procesar, al dividir en dataframes en partes (valor CHUNK_SIZE en el archivo config.py) se puede hacer un guardado de registros segun se vaya completando los dataframes particionados.
+                
                 - procesar_coordenadas_paralelo: Esta funcion se realiza para poder ejecutar en paralelo las peticiones a la API, esto lo realizo debido a que la API no permite peticiones de diccionarios y se requiere de 1 peticion por registro, lo cual para un archivo tan grande es muy tardio. La funcion trabajara con el numero de WORKERS propuestos en el archivo config.py, esto hara que en lugar de 1 peticion por segundo, se hagan el numero de WORKERS en peticiones por segundo, lo cual incrementa bastante el procesamiento para API. sin embargo, se debe tener cuidado de no hacer demasiadas peticiones debido a que la API puede bloquear la conexion. Se coloca el numero de WORKERS en 15 debido a que la APi permite 15 peticiones por segundo, se podrian aumentar pero se corre el riesgo de que la API bloquee del todo la IP de peticion. 
         
-    3. Para amacenar los datos, elegi postgres debido a que las librerias de conectividad con python son faciles de manejar y no requiere tantas configuraciones internas. Para crear la base de datos se realiza con el archivo docker-compose.yml. en donde se especifica que se usara el archivo init.sql para crear el schema, la tabla y los index propuestos en la prueba. 
+    3. Para amacenar los datos, elegi postgres debido a que las librerias de conectividad con python son faciles de manejar y no requiere tantas configuraciones para su uso con python. Para crear la base de datos se realiza con el archivo docker-compose.yml. en donde se especifica que se usara el archivo init.sql para crear el schema, la tabla y los index propuestos en la prueba. 
+
         3.1. Para el guardado en la base de datos, el archivo data_io.py contiene la funcion de insertar_en_db() en la clase "extract_load", lo que simplemente tomara lo que se tenga en un dataframe de pandas y se guardara en la base de datos.
 
 Enriquecimiento con API Externa
@@ -96,7 +108,8 @@ Generación de Reportes
     2. Calcular estadísticas de calidad de datos (ejemplo: porcentaje de coordenadas sin código postal).
     3. Generar un archivo CSV con los datos enriquecidos y estadísticas generales
 
-    Reportes guardados en la carpeta de Output...
+    Proceso Realizado:
+        Reportes guardados en la carpeta de Output, si se requiere generar de nuevo, ejecutar todo el codigo desde cero pero tener en cuenta que la carpeta "output" debe de estar vacia al inicio de la ejecucion ya que la parte de "reporting" tomara lo que haya en esta carpeta y lo procesara para hacer los reportes, por lo que tomara de nuevo los archivos y generara reportes con data duiplicada o incorrecta. 
 
 Documentación y Entrega
     1. README.md explicando la solución, la arquitectura y los pasos para ejecutar el proyecto.
@@ -136,5 +149,5 @@ Documentación y Entrega
 
     Adicional: 
 
-        Se coloca un EDA en un notebook con el fin de analizar como esta la data en el dataframe, este EDA lo realizo de manera manual, y tambien de manera automatica con la libraria de pandas, en donde tambien lo exporto a un archivo html, esto es con el fin de analizar mas facilmente los dataframes, sin embargo para este caso, tratandose de coordenadas, no hay nada relevante que este archivo pueda comentar. 
+        Se coloca un EDA en un notebook con el fin de analizar como esta la data en el dataframe, este EDA lo realizo de manera manual, y tambien de manera automatica con la libraria de pandas, en donde tambien lo exporto a un archivo html, esto es con el fin de analizar mas facilmente los dataframes, sin embargo para este caso, tratandose de coordenadas, no hay nada relevante que este archivo pueda comentar, sin embargo, es util para observar los comportamientos de las variables, su correlacion y valores. 
     
