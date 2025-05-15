@@ -3,7 +3,13 @@ Autor: Luis Carlos Sanchez
 PRUEBA BIA:
 
     Ejecución: 
+
+        Nota: 
+            Se requiere que la carpeta de origen se llame "bia" ya que docker tomara esta carpeta como el directorio de trabajo, en caso de que se llame diferente, 
+            modificar el archivo de Dockerfile y colocar el nombre de la carpeta correspondiente.
+
         Para ejecutar con docker:
+        
             - docker-compose -f docker-compose.yml up -d
 
             Nota: Si se requiere ejecutar en forma local: 
