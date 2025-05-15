@@ -15,15 +15,30 @@ PRUEBA BIA:
             Nota: Si se requiere ejecutar en forma local: 
                     El archivo config.py: 
                     - cambiar CSV_FILE = "source/postcodesgeo.csv" por la ruta en donde se encuentre el archivo "postcodesgeo.csv"
+        
+            Tener encuenta que esto ejecutara todo el proceso, por lo que tomara bastante tiempo en procesar todo el archivo.
+            
+        Si se requiere ejecutar una parte en especifico, se puede modificar el archivo main.py e indicar cual parte del codigo se quiere ejecutar, sin embargo, el proceso completo es para un sola ejecucion, es decir, todo lo que se ejecute se guardara en la carpeta "output" y si se requiere ejecutar desde cero es necesario que esta este vacia al inicio de la ejecucion. 
 
+        Para observar en las bases de datos: 
+            En el archivo config.py se encuentra el db_config con las credenciales de la base de datos y el puerto de conexión. 
+            De igual forma se tiene un pgadmin instalado con docker en caso de que quieran ingresar al local host y observar mas "visaul" la base de datos, 
+            para ingresar a pgadmin: 
+                1. Abrir navegador en: 
+                    http://localhost:5000/
+                2. Credenciales: 
+                    user: admin@admin.com 
+                    password: admin
+                3. Agregar la base de datos de postgres con las credenciales mencionadas en el archivo config.py 
+            
 
-Pasos prupuestos en la prueba: 
+Pasos propuestos en la prueba: 
 Ingesta de datos:
     1. Leer el archivo poscodes_geo.csv, asegurando una carga eficiente (manejo de errores, validación de datos, detección de duplicados).
     2. Transformar los datos para que sean consistentes en formato y estructura.
     3. Almacenar los datos en una base de datos relacional o no relacional de tu elección.
 
-    Proceso propuesto: 
+    Proceso Realizado: 
     1. Se crea una función que puede leer tanto en pandas como en pyspark, 
         Nota: para la ejecución con pyspark cambiar:
             - "USE_SPARK=False2 por "USE_SPARK=True" en el archivo config.py. 
@@ -58,7 +73,7 @@ Enriquecimiento con API Externa
     2. Manejar errores de API (timeouts, respuestas vacías, fallos en conexión).
     3. Asegurar que todas las coordenadas tengan un código postal. Si no es posible obtenerlo, almacenar el error en un log estructurado.
 
-    Proceso propuesto: 
+    Proceso Realizado: 
     Archivo data_io.py: 
     1.Se crea una clase llamada API_postcodes:
         Esta clase es una que trabajara con la configuracion dada en el archivo config.py, se tendra en cuenta un archivo LOG en donde se pondran todos los errores que se encuentren cuando se realicen las peticiones a la API, un timeout que espera en segundos un tiempo para indicar que la peticion fallo, un numero maximo de reintentos con el fin de realizar de nuevo una peticion y un tiempo de delay entre peticiones (con el fin de evitar que la API bloquee las peticiones).
@@ -70,7 +85,7 @@ Optimización y Modelado de Datos
     1. Diseñar un esquema eficiente en la base de datos para almacenar los datos enriquecidos.
     2. Crear índices y optimizaciones para mejorar el rendimiento en consultas futuras.
     
-    Proceso propuesto: 
+    Proceso Realizado: 
     RTA: el esquema propuesto se puede encontrar en el archivo init.sql, de igual forma se crean indices para busquedas por coordenadas y codigos postales. 
 
         El diseño del esquema, se realiza teniendo en cuenta las latitudes y longitudes tanto de entrada como de salida de la API, esto es para observar cuantas coordenadas se tienen sin codigo postal y poder hacer un filtro de las mismas a futuro, de igual forma se toma los datos mas relevantes como el codigo postal, el distrito, la region y el estado de la api a la hora de la busqueda, tambien se pone un timestamp para saber la hora a la que se  inserta cada registro. 
@@ -88,7 +103,7 @@ Documentación y Entrega
     2. Diagrama de arquitectura y flujo de datos.
     3. Explicar cualquier decisión clave tomada en el diseño del proceso.
 
-    Proceso propuesto: 
+    Proceso Realizado: 
     2. DIAGRAMA: 
 
         [CSV de coordenadas (postcodesgeo.csv)]      [API (postcodes.io)]                          ***** Fuentes de Datos *****
