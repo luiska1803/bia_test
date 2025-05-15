@@ -1,0 +1,46 @@
+version: "3"
+networks:
+  bia_network:
+services:
+  postgres_bia:
+    image: postgres:latest
+    container_name: bia_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=bia_db
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - bia_network
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: bia_pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5000:80"
+    depends_on:
+      - postgres_bia
+    networks:
+      - bia_network
+  bia_app:
+    container_name: bia_python
+    restart: "no"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/bia
+    depends_on:
+      - postgres_bia
+    networks:
+      - bia_network
+    
+volumes:
+  postgres-data:

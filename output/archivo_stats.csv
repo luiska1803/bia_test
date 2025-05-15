@@ -1,0 +1,8 @@
+total_registros,columna,cantidad_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,duplicados,registro_mas_comun,registro_menos_comun
+246501,postcode,6985,2.83,228161,92.56,18339,CA1 1HG,NR28 9TT
+246501,admin_district,6985,2.83,361,0.15,246139,North Yorkshire,Isles of Scilly
+246501,region,47974,19.46,9,0.0,246491,South East,North East
+246501,latitude,6985,2.83,220441,89.43,26059,50.898352,51.51415
+246501,longitude,6985,2.83,222736,90.36,23764,-4.207622,1.734702
+246501,estado_api,0,0.0,4,0.0,246497,200,Error de conexion
+246501,descripcion_estado,0,0.0,2,0.0,246499,OK,error de conexion

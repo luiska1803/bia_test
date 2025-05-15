@@ -1,0 +1,8 @@
+pandas
+pyspark
+seaborn
+psycopg2-binary
+sqlalchemy
+requests
+ratelimit
+tqdm
