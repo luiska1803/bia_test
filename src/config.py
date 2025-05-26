@@ -1,5 +1,5 @@
 # ---------- CONFIGURACIÓN ----------
-APP_NAME= "Bia_APP"
+APP_NAME= "coord_UK"
 USE_SPARK=False
 
 # ---------- API ---------------------
@@ -12,9 +12,9 @@ WORKERS = 15
 
 # --------- CONFIGURACION DE DB (POSTGRES) --------- 
 db_config = {
-    "host": "postgres_bia",
+    "host": "postgres_coord_UK",
     "port": 5432,
-    "dbname": "bia_db",
+    "dbname": "coord_UK_db",
     "user": "admin",
     "password": "pass"
 }

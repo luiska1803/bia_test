@@ -1,0 +1,2 @@
+#Vamos a ignorar los archivos de log, con el fin de no generar redundancia. 
+*.log

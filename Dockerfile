@@ -7,9 +7,9 @@ RUN apt-get update && \
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-COPY . /bia
+COPY . /coord_UK
 
-WORKDIR /bia
+WORKDIR /coord_UK
 
 RUN pip install --no-cache-dir -r requirements.txt 
 

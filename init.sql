@@ -1,7 +1,7 @@
 
-CREATE SCHEMA bia_db;
+CREATE SCHEMA coord_UK_db;
 
-CREATE TABLE bia_db.postcodes (
+CREATE TABLE coord_UK_db.postcodes (
     id SERIAL PRIMARY KEY,
     lat DOUBLE PRECISION NOT NULL,
     lon DOUBLE PRECISION NOT NULL,

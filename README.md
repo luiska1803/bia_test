@@ -1,11 +1,11 @@
 Autor: Luis Carlos Sanchez
 
-PRUEBA BIA:
+DESCRIPCIÓN:
 
     Ejecución: 
 
         Nota: 
-            Se requiere que la carpeta de origen se llame "bia" ya que docker tomara esta carpeta como el directorio de trabajo, en caso de que se llame diferente, 
+            Se requiere que la carpeta de origen se llame "coord_UK" ya que docker tomara esta carpeta como el directorio de trabajo, en caso de que se llame diferente, 
             modificar el archivo de Dockerfile y colocar el nombre de la carpeta correspondiente.
 
         Para ejecutar con docker:
