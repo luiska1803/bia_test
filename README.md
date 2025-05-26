@@ -2,7 +2,10 @@ Autor: Luis Carlos Sanchez
 
 DESCRIPCIÓN:
 
-    Ejecución: 
+    Este proyecto toma las coordenadas de un archivo csv llamado "postcodesgeo.csv", y la alimenta mediante una API "https://api.postcodes.io" con coordenadas de UK, en donde devuelve información y la almacena en una base de datos de postgres y realiza unos archivos de reporting con la data final. 
+    Este proyecto utiliza princios basicos de ETL diseñado en python con conjunto en postgres, para la lectura de los archivos se podr aleer y escribir en dataframes de pandas y/o pyspark, el ETL contara con un proceso de extracción en las fuentes del archivo csv y de la API, limpieza y transformacion en python y carga en las bases de datos. 
+
+    Ejecución del proyecto: 
 
         Nota: 
             Se requiere que la carpeta de origen se llame "coord_UK" ya que docker tomara esta carpeta como el directorio de trabajo, en caso de que se llame diferente, 
@@ -32,7 +35,7 @@ DESCRIPCIÓN:
                 3. Agregar la base de datos de postgres con las credenciales mencionadas en el archivo config.py 
             
 
-Pasos propuestos en la prueba: 
+Pasos propuestos para la prueba: 
 Ingesta de datos:
     1. Leer el archivo poscodes_geo.csv, asegurando una carga eficiente (manejo de errores, validación de datos, detección de duplicados).
     2. Transformar los datos para que sean consistentes en formato y estructura.
@@ -80,7 +83,7 @@ Ingesta de datos:
 
         3.1. Para el guardado en la base de datos, el archivo data_io.py contiene la funcion de insertar_en_db() en la clase "extract_load", lo que simplemente tomara lo que se tenga en un dataframe de pandas y se guardara en la base de datos.
 
-Enriquecimiento con API Externa
+Enriquecimiento con API Externa:
     1. Consumir la API de postcodes.io para obtener la información detallada del código postal más cercano a cada coordenada.
     2. Manejar errores de API (timeouts, respuestas vacías, fallos en conexión).
     3. Asegurar que todas las coordenadas tengan un código postal. Si no es posible obtenerlo, almacenar el error en un log estructurado.
@@ -93,7 +96,7 @@ Enriquecimiento con API Externa
     2. log_error: esta funcion toma en cuenta todos los errores que se tengan con las peticiones a la API y las almacenara en un archivo log (LOG_FILE propuesto en el archivo config.py), en este archivo se encuentra todas las coordenadas que tuvieron fallos, el tipo de error que se presento y la hora en la que se presento el error. 
     3. como se menciona anteriormente la funcion ya almacena el log estructurado, ademas de que la funcion get_postcode_from_coords, devolvera todas las coordenadas con el fin de saber cuales tuvieron errores y en caso hipotetico, en un futuro se requiere hacer algo con esta informacion se pueda hacer. 
 
-Optimización y Modelado de Datos
+Optimización y Modelado de Datos:
     1. Diseñar un esquema eficiente en la base de datos para almacenar los datos enriquecidos.
     2. Crear índices y optimizaciones para mejorar el rendimiento en consultas futuras.
     
@@ -111,10 +114,10 @@ Generación de Reportes
     Proceso Realizado:
         Reportes guardados en la carpeta de Output, si se requiere generar de nuevo, ejecutar todo el codigo desde cero pero tener en cuenta que la carpeta "output" debe de estar vacia al inicio de la ejecucion ya que la parte de "reporting" tomara lo que haya en esta carpeta y lo procesara para hacer los reportes, por lo que tomara de nuevo los archivos y generara reportes con data duiplicada o incorrecta. 
 
-Documentación y Entrega
+Documentación:
     1. README.md explicando la solución, la arquitectura y los pasos para ejecutar el proyecto.
     2. Diagrama de arquitectura y flujo de datos.
-    3. Explicar cualquier decisión clave tomada en el diseño del proceso.
+    3. Decisiones claves tomadas en el diseño del proceso.
 
     Proceso Realizado: 
     2. DIAGRAMA: 

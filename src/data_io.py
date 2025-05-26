@@ -45,7 +45,7 @@ class API_postcodes:
             }, f)
             f.write("\n")
 
-    def get_postcode_from_coords(self, latitud: float, longitud: float) -> Optional[dict]:
+    def get_postcode_from_coords_get(self, latitud: float, longitud: float) -> Optional[dict]:
         """
             Funcion para recibir informacion a partir de las cordenadas entregadas a la API... 
         """
@@ -147,6 +147,31 @@ class API_postcodes:
 
         return None
 
+    def get_postcode_from_coords_post(self, df) -> Optional[dict]:
+        for _ in range(self.MAX_RETRIES):
+            try:
+                json_data = df[['latitude', 'longitude']].to_dict(orient='records')
+                response = requests.post(
+                    f"{self.api_url}/postcodes",
+                    json={"geolocations": json_data},
+                    timeout=self.timeout
+                )
+            
+                data = response.json()
+                if data["status"] == 200:
+                    return data["result"]
+                else:
+                    return {"error": f"Status {response.status_code}", "batch": json_data}
+                
+            except Exception as e:
+                return {"error": str(e), "batch": df.to_dict(orient="records")}  
+            except requests.exceptions.RequestException as e:
+                self.log_error(f"Error de conexion: {str(e)} ,batch: { df.to_dict(orient='records')}")
+                time.sleep(self.RATE_LIMIT_DELAY)
+            except Exception as e:
+                self.log_error(f"Error inesperado: {str(e)} ,batch: { df.to_dict(orient='records')}")
+
+        return None
 
 class extract_load:
     """
