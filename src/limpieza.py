@@ -67,6 +67,24 @@ class limpieza_df:
                 self.df[col_name] = self.df[col_name].astype(tipo)
 
         return self
+    
+    def renombrar_columnas(
+        self, 
+        col_renom: dict
+    ):
+        """ 
+            Funcion para renombrar columbas que se especifiquen...
+        """
+        if self.is_spark:
+            LOGGER.info(f"renombrando columnas: {col_renom}")
+            for col_vieja, col_nueva in col_renom.items():
+                self.df = self.df.withColumnRenamed(col_vieja, col_nueva)
+        else:
+            LOGGER.info(f"renombrando columnas: {col_renom}")
+            self.df = self.df.rename(columns=col_renom)
+        
+        return self
+
 
     def resultado(
         self

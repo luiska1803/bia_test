@@ -1,4 +1,4 @@
-Autor: Luis Carlos Sanchez
+Autor: Luis Carlos Sanchez Monroy
 
 DESCRIPCIÓN:
 

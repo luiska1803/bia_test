@@ -9,6 +9,7 @@ TIMEOUT = 5  # En segundos
 RATE_LIMIT_DELAY = 0.3 # (3 peticiones por segundo)
 CHUNK_SIZE = 500
 WORKERS = 15
+MAX_API_SIZE = 100 #Tamaño maximo de peticiones tipo post a la API
 
 # --------- CONFIGURACION DE DB (POSTGRES) --------- 
 db_config = {
